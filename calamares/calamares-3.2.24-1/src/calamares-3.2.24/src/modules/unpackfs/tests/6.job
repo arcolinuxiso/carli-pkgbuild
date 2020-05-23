@@ -1,5 +1,0 @@
----
-unpack:
-   - source: .
-     sourcefs: ext4
-     destination: fakedest

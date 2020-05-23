@@ -1,4 +1,0 @@
----
-unpack:
-   - source: .
-     sourcefs: bogus
