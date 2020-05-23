@@ -6,9 +6,9 @@ sudo pacman -S --needed --noconfirm kio
 sudo pacman -S --needed --noconfirm solid
 sudo pacman -S --needed --noconfirm yaml-cpp
 sudo pacman -S --needed --noconfirm kpmcore
-sudo pacman -S --needed --noconfirm mkinitcpio-openswap
+yay -S mkinitcpio-openswap --noconfirm
 sudo pacman -S --needed --noconfirm boost-libs
-sudo pacman -S --needed --noconfirm ckbcomp
+yay -S ckbcomp --noconfirm
 sudo pacman -S --needed --noconfirm hwinfo
 sudo pacman -S --needed --noconfirm qt5-svg
 sudo pacman -S --needed --noconfirm polkit-qt5
