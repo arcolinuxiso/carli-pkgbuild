@@ -1,0 +1,9 @@
+post_install() {
+	pacman-key --populate carli
+	pacman-key --lsign-key A92A8AA12FA7E524653BF8794030B8368D944C9C
+}
+
+post_upgrade() {
+	pacman-key --populate carli
+	pacman-key --lsign-key A92A8AA12FA7E524653BF8794030B8368D944C9C
+}

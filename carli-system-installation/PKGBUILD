@@ -1,12 +1,12 @@
 # Maintainer: Erik Dubois <erik.dubois@gmail.com>
-pkgname=carli-calamares-config
-_destname1="/etc"
+pkgname=carli-system-installation
+_destname1="/etc/skel/Desktop"
 _destname2="/etc"
 _destname3="/etc"
 _destname4="/etc"
 pkgver=20.9
-pkgrel=2
-pkgdesc="calamares for carli"
+pkgrel=3
+pkgdesc="System files for carli"
 arch=('any')
 url="https://github.com/arcolinuxiso"
 license=('GPL3')
