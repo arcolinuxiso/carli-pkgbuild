@@ -16,6 +16,6 @@ install=$pkgbase.install
 package() {
     mkdir -p ${pkgdir}/$destdir
     cd ..
-    mv carli.gpg ${pkgdir}/$destdir
+    cp carli.gpg ${pkgdir}/$destdir
     install -dm 755 "${pkgdir}/$destdir"
 }
