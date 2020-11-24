@@ -3,19 +3,21 @@
 pkgbase=carli-keyring
 pkgname=("$pkgbase")
 destdir=/usr/share/pacman/keyrings
-pkgver=1.1
-pkgrel=4
+pkgver=1.2
+pkgrel=1
 pkgdesc="Carli keyring"
 arch=('any')
 url="https://github.com/carli"
 license=('GPL3')
-source=('carli-keyring.install' 'carli.gpg')
+source=('carli-keyring.install' 'carli.gpg' 'carli-revoked')
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP')
 install=$pkgbase.install
 package() {
     mkdir -p ${pkgdir}/$destdir
     cd ..
     cp carli.gpg ${pkgdir}/$destdir
+    cp carli-revoked ${pkgdir}/$destdir
     install -dm 755 "${pkgdir}/$destdir"
 }
