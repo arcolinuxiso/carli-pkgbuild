@@ -1,9 +1,14 @@
-post_install() {
-	pacman-key --populate carli
-	pacman-key --lsign-key 26957CDDC4D6A2E2029368587B01FA17CA801345
+post_upgrade() {
+	if usr/bin/pacman-key -l >/dev/null 2>&1; then
+		usr/bin/pacman-key --populate carli
+	else
+		echo " >>> Run \`pacman-key --init\` to set up your pacman keyring."
+		echo " >>> Then run \`pacman-key --populate carli\` to install the Carli keyring."
+	fi
 }
 
-post_upgrade() {
-	pacman-key --populate carli
-	pacman-key --lsign-key 26957CDDC4D6A2E2029368587B01FA17CA801345
+post_install() {
+	if [ -x usr/bin/pacman-key ]; then
+		post_upgrade
+	fi
 }

@@ -1,23 +1,23 @@
 # Maintainers: Portergos Linux <portergoslinux@gmail.com>, EndeavourOS <info@endeavouros.com>
 
-pkgbase=carli-keyring
-pkgname=("$pkgbase")
-destdir=/usr/share/pacman/keyrings
-pkgver=1.2
-pkgrel=1
+pkgname=carli-keyring
+pkgver=2.1
+pkgrel=4
 pkgdesc="Carli keyring"
 arch=('any')
 url="https://github.com/carli"
-license=('GPL3')
-source=('carli-keyring.install' 'carli.gpg' 'carli-revoked')
-sha256sums=('SKIP'
-            'SKIP'
-            'SKIP')
-install=$pkgbase.install
+license=('GPL')
+install="${pkgname}.install"
+source=('Makefile'
+        'carli.gpg'
+	'carli-revoked'
+	'carli-trusted')
+validpgpkeys=('26957CDDC4D6A2E2029368587B01FA17CA801345')
+md5sums=('432cbc87a1cca5f0b5be2090d5d22fb6'
+         'c46f3cdd8c6d1ae867ed42852f65ac87'
+         '67819226c5a358de102356153fad1a0b'
+         '1c35980064a8eb4fb9712709c81c07bb')
 package() {
-    mkdir -p ${pkgdir}/$destdir
-    cd ..
-    cp carli.gpg ${pkgdir}/$destdir
-    cp carli-revoked ${pkgdir}/$destdir
-    install -dm 755 "${pkgdir}/$destdir"
+	cd "${srcdir}"
+	make PREFIX=/usr DESTDIR=${pkgdir} install
 }
