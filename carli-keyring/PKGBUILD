@@ -2,7 +2,7 @@
 
 pkgname=carli-keyring
 pkgver=2.1
-pkgrel=4
+pkgrel=5
 pkgdesc="Carli keyring"
 arch=('any')
 url="https://github.com/carli"
