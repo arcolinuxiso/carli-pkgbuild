@@ -1,11 +1,11 @@
 # Maintainer: Erik Dubois <erik.dubois@gmail.com>
-pkgname=carli-calamares-config
-_destname1="/etc"
+pkgname=carli-mirrorlist
+_destname1="/etc/pacman.d"
 _destname2="/etc"
 _destname3="/etc"
 _destname4="/etc"
 pkgver=21.10
-pkgrel=01
+pkgrel=03
 pkgdesc="calamares for carli"
 arch=('any')
 url="https://github.com/arcolinuxiso"
