@@ -1,11 +1,11 @@
 # Maintainer: Erik Dubois <erik.dubois@gmail.com>
 pkgname=carli-xfce-config
-_destname1="/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/"
+_destname1="/etc/skel/.config/xfce4/"
 _destname2="/etc"
 _destname3="/etc"
 _destname4="/etc"
 pkgver=21.12
-pkgrel=01
+pkgrel=03
 pkgdesc="Xfce4 configuration for Carli"
 arch=('any')
 url="https://github.com/arcolinuxiso/"
