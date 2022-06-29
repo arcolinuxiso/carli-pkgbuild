@@ -1,7 +1,7 @@
 # Maintainer: erik.dubois@gmail.com
 pkgname=carli-sddm-breeze-minimal-git
 _gitname=carli-sddm-breeze-minimal
-pkgver=r1.3a19673
+pkgver=r2.b208eee
 pkgrel=1
 pkgdesc="Sddm Breeze minimal theme"
 arch=('any')
