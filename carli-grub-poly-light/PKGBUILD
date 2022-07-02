@@ -1,7 +1,7 @@
 # Maintainer: Dimitris Kiziridis <ragouel at outlook dot com>
 # Maintainer: erik.dubois@gmail.com
 pkgname=carli-grub-poly-light
-pkgver=r5.a76ad9a
+pkgver=r6.088c296
 pkgrel=1
 pkgdesc='Simple light GRUB theme'
 arch=('any')
