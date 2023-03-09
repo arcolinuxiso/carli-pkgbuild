@@ -1,14 +1,14 @@
 # Maintainer: Erik Dubois <erik.dubois@gmail.com>
-pkgname=carli-calamares-config
-_destname1="/etc"
-_destname2="/etc"
-_destname3="/etc"
-_destname4="/etc"
+pkgname=carli-cinnamon-config
+_destname1="/etc/skel/.config/dconf/"
+# _destname2="/etc"
+# _destname3="/etc"
+# _destname4="/etc"
 pkgver=23.03
 pkgrel=01
-pkgdesc="calamares for carli"
+pkgdesc="Cinnamon configuration for Carli"
 arch=('any')
-url="https://github.com/arcolinuxiso"
+url="https://github.com/arcolinuxiso/"
 license=('GPL3')
 makedepends=('git')
 depends=()
