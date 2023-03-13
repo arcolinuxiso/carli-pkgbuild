@@ -1,0 +1,21 @@
+# Maintainer: Erik Dubois <erik.dubois@gmail.com>
+pkgname=carli-sddm-viper-theme-git
+_pkgname=carli-sddm-viper-theme
+_destname1="/usr"
+pkgver=23.03
+pkgrel=01
+pkgdesc="Simplicity theme from isseigx on gitlab"
+arch=('any')
+url="https://github.com/arcolinuxiso/${_pkgname}"
+license=('GPL3')
+depends=('qt5-quickcontrols2' 'qt5-quickcontrols')
+makedepends=('git')
+install=install
+makedepends=('git')
+options=(!strip !emptydirs)
+replaces=()
+source=(${_pkgname}::git+$url)
+sha256sums=('SKIP')
+package() {
+  cp -r ${srcdir}/${_pkgname}/${_destname1} ${pkgdir}
+}

@@ -1,0 +1,32 @@
+post_install() {
+  echo
+  tput setaf 2
+  echo "To use this theme, add or change the following lines in /etc/sddm.conf"
+  echo "or the file in /etc/sddm.conf.d folder"
+  echo
+  echo "We will change this automatically for you"
+  tput sgr0
+  echo
+
+  echo -e "\n** The files have been installed in /usr/share/sddm/themes/viper **\n"
+  if grep -q Current= /etc/sddm.conf.d/kde_settings.conf ; then
+      sed -i '/Current=/c Current=viper' /etc/sddm.conf.d/kde_settings.conf
+  fi
+  if grep -q Current= /etc/sddm.conf ; then
+      sed -i '/Current=/c Current=viper' /etc/sddm.conf
+  fi
+}
+
+post_upgrade() {
+  post_install
+}
+
+post_remove() {
+  echo -e "\n** The files have been removed from /usr/share/sddm/themes/viper **\n"
+  if grep -q Current=viper /etc/sddm.conf.d/kde_settings.conf ; then
+      sed -i '/Current=viper/c Current=maldives' /etc/sddm.conf.d/kde_settings.conf
+  fi
+  if grep -q Current= /etc/sddm.conf ; then
+      sed -i '/Current=viper/c Current=maldives' /etc/sddm.conf
+  fi
+}

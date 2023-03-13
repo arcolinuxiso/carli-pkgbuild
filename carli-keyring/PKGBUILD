@@ -2,7 +2,7 @@
 
 pkgname=carli-keyring
 pkgver=3.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Carli keyring"
 arch=('any')
 url="https://github.com/carli"
@@ -16,7 +16,7 @@ validpgpkeys=('26957CDDC4D6A2E2029368587B01FA17CA801345')
 md5sums=('432cbc87a1cca5f0b5be2090d5d22fb6'
          '75e531c067443b8a9463ad43e01d9c8f'
          '67819226c5a358de102356153fad1a0b'
-         '442dd0374e2c15431f4d49bc879a9ee9')
+         '1c35980064a8eb4fb9712709c81c07bb')
 package() {
 	cd "${srcdir}"
 	make PREFIX=/usr DESTDIR=${pkgdir} install
