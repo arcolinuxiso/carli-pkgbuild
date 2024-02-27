@@ -1,0 +1,54 @@
+# Maintainer: Philip Müller <philm[at]manjaro[dog]org>
+# https://gitlab.manjaro.org/manjaro-arm/packages/extra/calamares/-/blob/master/PKGBUILD
+# https://gitlab.manjaro.org/packages/extra/calamares/-/blob/master/PKGBUILD
+
+pkgname=calamares
+pkgver=3.3.4.240227
+pkgrel=01
+pkgdesc='Distribution-independent installer framework'
+arch=('i686' 'x86_64')
+license=(GPL)
+url="https://github.com/calamares/calamares/"
+license=('LGPL')
+depends=('kdbusaddons5' 'kconfig5' 'kcoreaddons5' 'kiconthemes5' 'ki18n5' 'kio5' 'solid5' 'yaml-cpp' 'kpmcore' 'mkinitcpio-openswap'
+         'boost-libs' 'ckbcomp' 'hwinfo' 'qt5-svg' 'polkit-qt5' 'gtk-update-icon-cache' 'plasma-framework5'
+         'qt5-xmlpatterns' 'squashfs-tools' 'libpwquality' 'efibootmgr' 'icu' 'appstream-qt5') 
+makedepends=('extra-cmake-modules' 'qt5-tools' 'qt5-translations' 'git' 'boost' 'kparts5' 'kdbusaddons5')
+backup=('usr/share/calamares/modules/bootloader.conf'
+        'usr/share/calamares/modules/displaymanager.conf'
+        'usr/share/calamares/modules/initcpio.conf'
+        'usr/share/calamares/modules/unpackfs.conf')
+
+source=($pkgname::git+https://github.com/calamares/calamares#commit=91454a7)
+sha256sums=('SKIP')
+
+prepare() {
+	cd ${srcdir}/calamares
+	sed -i -e 's/etc\/sddm.conf/etc\/sddm.conf.d\/kde_settings.conf/' src/modules/displaymanager/main.py
+}
+
+build() {
+	cd ${srcdir}/calamares
+
+	mkdir -p build
+	cd build
+        cmake .. \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_INSTALL_PREFIX=/usr \
+              -DCMAKE_INSTALL_LIBDIR=lib \
+              -DWITH_PYTHONQT=OFF \
+              -DWITH_KF5DBus=OFF \
+              -DBoost_NO_BOOST_CMAKE=ON \
+              -DWEBVIEW_FORCE_WEBKIT=OFF \
+              -DSKIP_MODULES="webview tracking webview interactiveterminal initramfs \
+                              initramfscfg dracut dracutlukscfg \
+                              dummyprocess dummypython dummycpp \
+                              dummypythonqt services-openrc \
+                              keyboardq localeq welcomeq packagechooserq partitionq oemid license"
+        make
+}
+
+package() {
+	cd ${srcdir}/calamares/build
+	make DESTDIR="$pkgdir" install
+}
