@@ -1,18 +1,15 @@
 # Maintainer: Erik Dubois <erik.dubois@gmail.com>
 pkgname=carli-calamares-config
 _destname1="/etc"
-_destname2="/etc"
-_destname3="/etc"
-_destname4="/etc"
-pkgver=24.02
-pkgrel=08
+pkgver=24.09
+pkgrel=02
 pkgdesc="calamares for carli"
 arch=('any')
 url="https://github.com/arcolinuxiso"
 license=('GPL3')
 makedepends=('git')
 depends=()
-conflicts=()
+conflicts=("carli-calamares-config-qml")
 provides=("${pkgname}")
 options=(!strip !emptydirs)
 source=(${pkgname}::"git+${url}/${pkgname}")

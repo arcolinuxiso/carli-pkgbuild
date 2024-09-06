@@ -4,7 +4,7 @@ destination1=$HOME"/CARLI/carli_repo/x86_64/"
 
 destiny=$destination1
 
-search1="carli-calamares"
+search1="calamares"
 search=$search1
 
 tput setaf 2
@@ -31,7 +31,7 @@ rm -rf pkg src
 echo "deleting unnecessary files"
 echo "#############################################################################################"
 
-rm -rf carli-calamares-*
+rm -rf calamares*
 
 tput setaf 8
 echo "#############################################################################################"

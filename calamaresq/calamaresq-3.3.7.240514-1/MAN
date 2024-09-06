@@ -1,0 +1,90 @@
+# Maintainer: Philip Müller <philm[at]manjaro[dog]org>
+
+pkgname=calamares-git
+pkgver=3.3.6.r11976.0017df327
+_ver=3.3.6
+pkgrel=1
+_commit=97f960f5dc9ba587deff201160679e116505c05b
+pkgdesc='Distribution-independent installer framework'
+arch=('i686' 'x86_64')
+license=('BSD-2-Clause AND CC0-1.0 AND CC-BY-4.0 AND GPL-3.0-or-later AND LGPL-2.0-only AND LGPL-2.1-only AND LGPL-3.0-or-later AND MIT')
+url="https://gitlab.manjaro.org/applications/calamares"
+depends=('kconfig' 'kcoreaddons' 'kiconthemes' 'ki18n' 'solid' 'yaml-cpp' 'kpmcore'
+	'boost-libs' 'ckbcomp' 'hwinfo' 'qt6-svg' 'polkit-qt6'
+	'squashfs-tools' 'libpwquality' 'python')
+makedepends=('extra-cmake-modules' 'qt6-tools' 'qt6-translations' 'git' 'boost')
+backup=('usr/share/calamares/modules/bootloader.conf'
+        'usr/share/calamares/modules/displaymanager.conf'
+        'usr/share/calamares/modules/initcpio.conf'
+        'usr/share/calamares/modules/unpackfs.conf')
+
+source+=(git+https://gitlab.manjaro.org/applications/calamares.git#branch=development)
+sha256sums=('SKIP')
+conflicts=('calamares' 'calamares-dev')
+provides=('calamares')
+replaces=('calamares-dev')
+
+pkgver() {
+	cd ${srcdir}/calamares
+#	_version="$(cat CMakeLists.txt | grep -m3 -e "  VERSION" | grep -o "[[:digit:]]*" | xargs | sed s'/ /./g')"
+_version=$_ver
+	_git=".r$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+	printf '%s%s' "${_version}" "${_git}"
+	sed -i -e "s|\${CALAMARES_VERSION_MAJOR}.\${CALAMARES_VERSION_MINOR}.\${CALAMARES_VERSION_PATCH}|${_version}${_git}|g" CMakeLists.txt
+	sed -i -e "s|CALAMARES_RELEASE_MODE OFF|CALAMARES_RELEASE_MODE ON|g" CMakeLists.txt
+	rm -rf ${srcdir}/calamares/.git
+}
+
+prepare() {
+	cd ${srcdir}/calamares
+
+	# change branding
+	sed -i -e "s/default/manjaro/g" src/branding/CMakeLists.txt
+	
+	# Apply patches
+	local src
+	for src in "${source[@]}"; do
+		src="${src%%::*}"
+		src="${src##*/}"
+		[[ $src = *.patch ]] || continue
+		msg2 "Applying patch: $src..."
+		patch -Np1 < "../$src"
+	done
+}
+
+build() {
+	cd ${srcdir}/calamares
+
+	mkdir -p build
+	cd build
+        cmake .. \
+              -DCMAKE_BUILD_TYPE=Debug \
+              -DCMAKE_INSTALL_PREFIX=/usr \
+              -DCMAKE_INSTALL_LIBDIR=lib \
+              -DWITH_QT6=ON \
+              -DINSTALL_CONFIG=ON \
+              -DSKIP_MODULES="initramfs initramfscfg \
+                              dummyprocess dummypython \
+                              dummycpp dummypythonqt \
+                              services-openrc"
+        make
+}
+
+package() {
+	cd ${srcdir}/calamares/build
+	make DESTDIR="$pkgdir" install
+	install -Dm644 "../data/manjaro-icon.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/calamares.svg"
+	install -Dm644 "../data/calamares.desktop" "$pkgdir/usr/share/applications/calamares.desktop"
+	install -Dm755 "../data/calamares_polkit" "$pkgdir/usr/bin/calamares_polkit"
+	install -Dm644 "../data/49-nopasswd-calamares.rules" "$pkgdir/etc/polkit-1/rules.d/49-nopasswd-calamares.rules"
+	chmod 750      "$pkgdir"/etc/polkit-1/rules.d
+
+	# rename services-systemd back to services
+	mv "$pkgdir/usr/lib/calamares/modules/services-systemd" "$pkgdir/usr/lib/calamares/modules/services"
+	mv "$pkgdir/usr/share/calamares/modules/services-systemd.conf" "$pkgdir/usr/share/calamares/modules/services.conf"
+	sed -i -e 's/-systemd//' "$pkgdir/usr/lib/calamares/modules/services/module.desc"
+	sed -i -e 's/-systemd//' "$pkgdir/usr/share/calamares/settings.conf"
+	
+	# fix branding install
+	cp -av "../src/branding/manjaro" "$pkgdir/usr/share/calamares/branding/"
+}
