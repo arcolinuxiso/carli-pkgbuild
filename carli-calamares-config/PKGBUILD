@@ -2,7 +2,7 @@
 pkgname=carli-calamares-config
 _destname1="/etc"
 pkgver=24.10
-pkgrel=04
+pkgrel=05
 pkgdesc="calamares for carli"
 arch=('any')
 url="https://github.com/arcolinuxiso"
