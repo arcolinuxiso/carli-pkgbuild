@@ -1,0 +1,108 @@
+# Maintainer: Philip Müller <philm[at]manjaro[dog]org>
+# https://gitlab.manjaro.org/manjaro-arm/packages/extra/calamares/-/blob/master/PKGBUILD
+# https://gitlab.manjaro.org/packages/extra/calamares/-/blob/master/PKGBUILD
+
+pkgname=calamares
+# do not forget the commit
+pkgver=3.3.14.250121
+pkgrel=01
+commit=babaddf
+pkgdesc='Distribution-independent installer framework'
+arch=('i686' 'x86_64')
+license=(GPL)
+url="https://github.com/calamares/calamares/"
+license=('LGPL')
+provides=('calamares')
+conflicts=("calamaresq")
+depends=(
+  'boost-libs'
+  'ckbcomp'
+  'cryptsetup'
+  'doxygen'
+  'efibootmgr'
+  'gptfdisk'
+  'gtk-update-icon-cache'
+  'hwinfo'
+  'icu'
+  'kconfig'
+  'kcoreaddons'
+  'kcrash'
+  'ki18n'
+  'kparts'
+  'kpmcore'
+  'kservice'
+  'kwidgetsaddons'
+  'libpwquality'
+  'mkinitcpio-openswap'
+  'polkit-qt6'
+  'rsync'
+  'qt6-declarative'
+  'solid'
+  'squashfs-tools'
+  'yaml-cpp'
+)
+makedepends=(
+  'boost'
+  'cmake'
+  'extra-cmake-modules'
+  'git'
+  'ninja'
+  'python-jsonschema'
+  'python-pyaml'
+  'python-unidecode'
+  'qt6-tools'
+)
+backup=('usr/share/calamares/modules/bootloader.conf'
+        'usr/share/calamares/modules/displaymanager.conf'
+        'usr/share/calamares/modules/initcpio.conf'
+        'usr/share/calamares/modules/unpackfs.conf')
+
+source=($pkgname::git+https://github.com/calamares/calamares#commit=$commit)
+sha256sums=('f9f0b04edd26efe8ccce195d276368851cd601d443ad9c76bcb0aff5bf2ba90a')
+
+prepare() {
+	cd ${srcdir}/calamares
+	sed -i -e 's/etc\/sddm.conf/etc\/sddm.conf.d\/kde_settings.conf/' src/modules/displaymanager/main.py
+}
+
+build() {
+	cd ${srcdir}/calamares
+
+  cmake -S . -Bbuild \
+      -GNinja \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DCMAKE_INSTALL_LIBDIR=lib \
+      -DWITH_APPSTREAM=OFF \
+      -DWITH_PYBIND11=OFF \
+      -DWITH_QT6=ON \
+      -DSKIP_MODULES="dracut \
+          dracutlukscfg \
+          dummycpp \
+          dummyprocess \
+          dummypython \
+          dummypythonqt \
+          initramfs \
+          initramfscfg \
+          interactiveterminal \
+          keyboardq \
+          license \
+          localeq \
+          oemid \
+          packagechooserq \
+          partitionq \
+          services-openrc \
+          summaryq \
+          tracking \
+          usersq \
+          welcomeq \
+          zfs \
+          zfshostid"
+
+  cmake --build build
+}
+
+package() {
+	cd ${srcdir}/calamares/build
+	DESTDIR="${pkgdir}" cmake --build . --target install
+}

@@ -1,8 +1,8 @@
 # Maintainer: Erik Dubois <erik.dubois@gmail.com>
 pkgname=carli-calamares-qml-config
 _destname1="/etc"
-pkgver=24.05
-pkgrel=05
+pkgver=25.01
+pkgrel=02
 pkgdesc="calamares for carli"
 arch=('any')
 url="https://github.com/arcolinuxiso"
